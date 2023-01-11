@@ -1,22 +1,3 @@
-$pc = $env:COMPUTERNAME
-$ver = (Get-ComputerInfo).WindowsProductName
-$hi = "You are the computer {0} running {1}" -f $pc, $ver
-Write-host $hi
-
-try {
-    $ErrorActionPreference = "Stop"
-    Write-Output "Testing Test-DataSet"
-    .\test.ps1
-}
-catch {
-    # $ex = $_
-    Write-Output "Test Failure!"
-    throw
-}
-Write-Output "Test Success!"
-
-Write-Output "Running Test-DataSet Example"
-
 function Echo-Query {
     param(
         [string]$query
@@ -39,12 +20,42 @@ function Echo-Query {
     return $table
 }
 
+$pc = $env:COMPUTERNAME
+$ver = (Get-ComputerInfo).WindowsProductName
+$hi = "You are the computer {0} running {1}" -f $pc, $ver
+Write-host $hi
+
 $table1 = Echo-Query 'SELECT 1 a UNION SELECT 2 a'
-Write-Host $table1
-
+# Write-Host $table1
 $table2 = Echo-Query 'SELECT 1 a UNION SELECT 3 a'
-Write-Host $table2
+# Write-Host $table2
 
-Import-Module .\Compare-DataTable -Force
-$ans = Compare-DataTable -ReferenceDataTable $table1 -DifferenceDataTable $table2
-Write-Output $ans
+function Assert-Equal {
+    # TODO for diff data types
+    param($a, $b)
+    if ($a -ne $b) {
+        $fmt = "Assert failed for equality with objects: {0}, {1}" -f $a, $b
+        Write-Host $fmt
+        throw
+    }
+}
+
+try {
+    $ErrorActionPreference = "Stop"
+    Write-Output "Testing Test-DataSet"
+    Import-Module .\Compare-DataTable -Force
+
+    $ans = Compare-DataTable -ReferenceDataTable $table1 -DifferenceDataTable $table1
+    Write-Output $ans
+    Assert-Equal $ans $False
+
+    $ans = Compare-DataTable -ReferenceDataTable $table1 -DifferenceDataTable $table2
+    Write-Output $ans
+    Assert-Equal $ans $True
+}
+catch {
+    # $ex = $_
+    Write-Output "Test Failure!"
+    throw
+}
+Write-Output "Test Success!"

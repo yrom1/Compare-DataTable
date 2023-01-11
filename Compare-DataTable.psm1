@@ -18,6 +18,22 @@ function Compare-DataTable {
     < line3
     ---
     > line4
+
+    $ diff file1 file2
+    3c3
+    < line3
+    ---
+    > line4
+    $ echo $?
+    1
+    $ diff file1 file1
+    $ echo $?
+    0
+
+    > [convert]::toint32($false)
+    0
+    > [convert]::toint32($true)
+    1
     #>
 
     Write-Host "DT1"
