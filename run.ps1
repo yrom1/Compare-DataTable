@@ -37,5 +37,5 @@ Import-Module .\Compare-DataTable -Force
 #      this just returns that table...
 $table = $DATASET.Tables[0]
 Write-host $table
-$ans = Compare-DataTable -DataTable0 $table -DataTable1 $table
+$ans = Compare-DataTable -ReferenceDataTable $table -DifferenceDataTable $table
 Write-Output $ans

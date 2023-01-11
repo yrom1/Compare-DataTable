@@ -1,2 +1,2 @@
 # Compare-DataTable
-Compare two `System.Data.DataTable`s
+Diff two `System.Data.DataTable`s
