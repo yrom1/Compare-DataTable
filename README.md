@@ -1,2 +1,2 @@
-# Test-DataSet
-Compare System.Data.DataSet to .csv
+# Compare-DataTable
+Compare two `System.Data.DataTable`s
