@@ -16,5 +16,5 @@ catch {
 Write-Output "Test Success!"
 
 Write-Output "Running Test-DataSet Example"
-Import-Module .\Test-DataSet
+Import-Module .\Test-DataSet -Force
 Test-DataSet -p0 'a' -p1 'b'

@@ -1,3 +1,3 @@
-Import-Module .\Test-DataSet
+Import-Module .\Test-DataSet -Force
 
 Write-Output Test-DataSet

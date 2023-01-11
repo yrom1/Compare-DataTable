@@ -18,9 +18,8 @@ function Test-DataSet {
 
     Write-Output "Last Row:", $RESULT
     Write-Output "DataSet", $DATASET | Format-Table
-
-    $ans = $p1 + $p2
-    Write-Output $ans
+    # $ans = $p1 + $p2
+    # Write-Output $ans
 }
 
 Export-ModuleMember -Function Test-DataSet
