@@ -24,26 +24,38 @@ function Compare-DataTable {
     #>
 
     Write-Host "DT1"
-    $dataTable1 = $ReferenceDataTable
     Write-Host $ReferenceDataTable
     Write-Host "DT2"
-    $dataTable2 = $DifferenceDataTable
     Write-Host $DifferenceDataTable
 
-    foreach ($row1 in $dataTable1.Rows) {
-        $row2 = $dataTable2.Rows | Where-Object { $_[0] -eq $row1[0] }
-        if ($row2) {
-            foreach ($column in $dataTable1.Columns) {
-                if ($row1[$column] -ne $row2[$column]) {
-                    Write-Host "Difference found in column $column. Value in dataTable1: $($row1[$column]), value in dataTable2: $($row2[$column])"
-                }
+    if ($ReferenceDataTable.Rows.Count -ne $DifferenceDataTable.Rows.Count) {
+        Write-Host "Unequal Row.Count!"
+        return $False
+    }
+    if ($ReferenceDataTable.Columns.Count -ne $DifferenceDataTable.Columns.Count) {
+        Write-Host "Unequal Columns.Count!"
+        return $False
+    }
+
+    $DiffFound = $False
+    for ($i = 0; $i -lt $ReferenceDataTable.Rows.Count; $i++) {
+        for ($j = 0; $j -lt $ReferenceDataTable.Columns.Count; $j++) {
+            # Do something with the cell value
+            $ReferenceValue = $ReferenceDataTable.Rows[$i][$j]
+            $DifferenceValue = $DifferenceDataTable.Rows[$i][$j]
+            Write-Host $ReferenceValue $DifferenceValue
+            # TODO how do i generic compare the various non-int types?
+            if ($ReferenceValue -ne $DifferenceDataTable) {
+                Write-Host "Found difference in row values ({0},{1}) (i,j): <R {3}, >D {4}" -f $i, $j, $ReferenceValue, $DifferenceValue
+                $DiffFound = $True
             }
         }
-        else {
-            Write-Host "No matching row found in dataTable2 for $($row1[0])"
-        }
     }
-    return $True
+    # $DiffFound = $True
+    # Write-Host "Difference found in column $column. Value in dataTable1: $($row1[$column]), value in dataTable2: $($row2[$column])"
+    # $DiffFound = $True
+    # Write-Host "No matching row found in dataTable2 for $($row1[0])"
+    return $DiffFound
 }
 
 Export-ModuleMember -Function Compare-DataTable
