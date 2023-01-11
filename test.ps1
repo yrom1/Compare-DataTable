@@ -1,3 +1,3 @@
-Import-Module .\Test-DataSet -Force
+Import-Module .\Compare-DataTable -Force
 
-Write-Output Test-DataSet
+# Write-Output Compare-DataTable
