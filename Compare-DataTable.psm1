@@ -36,11 +36,6 @@ function Compare-DataTable {
     1
     #>
 
-    Write-Host "DT1"
-    Write-Host $ReferenceDataTable
-    Write-Host "DT2"
-    Write-Host $DifferenceDataTable
-
     if ($ReferenceDataTable.Rows.Count -ne $DifferenceDataTable.Rows.Count) {
         Write-Host "Unequal Row.Count!"
         return $False
@@ -53,16 +48,14 @@ function Compare-DataTable {
     $DiffFound = $False
     for ($i = 0; $i -lt $ReferenceDataTable.Rows.Count; $i++) {
         for ($j = 0; $j -lt $ReferenceDataTable.Columns.Count; $j++) {
-            $fmt = "INDEX {0},{1}" -f $i, $j
-            Write-Host $fmt
+            # $fmt = "INDEX {0},{1}" -f $i, $j
+            # Write-Host $fmt
             # Do something with the cell value
             $ReferenceValue = $ReferenceDataTable.Rows[$i][$j]
             $DifferenceValue = $DifferenceDataTable.Rows[$i][$j]
             # TODO how do i generic compare the various non-int types?
-            Write-Host $ReferenceValue $DifferenceValue
             if ($ReferenceValue -ne $DifferenceValue) {
-                Write-Host $ReferenceValue.gettype() $DifferenceValue.gettype()
-                # FIXME this prints twice?
+                # Write-Host $ReferenceValue $ReferenceValue.gettype() $DifferenceValue $DifferenceValue.gettype()
                 $fmt = "Found difference @ (i={0},j={1}): <R {2}, >D {3}" -f $i, $j, $ReferenceValue, $DifferenceValue
                 Write-Host $fmt
                 $DiffFound = $True

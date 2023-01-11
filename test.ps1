@@ -23,7 +23,7 @@ function Echo-Query {
 $pc = $env:COMPUTERNAME
 $ver = (Get-ComputerInfo).WindowsProductName
 $hi = "You are the computer {0} running {1}" -f $pc, $ver
-Write-host $hi
+# Write-host $hi
 
 $table1 = Echo-Query 'SELECT 1 a UNION SELECT 2 a'
 # Write-Host $table1
@@ -42,15 +42,14 @@ function Assert-Equal {
 
 try {
     $ErrorActionPreference = "Stop"
-    Write-Output "Testing Test-DataSet"
     Import-Module .\Compare-DataTable -Force
 
     $ans = Compare-DataTable -ReferenceDataTable $table1 -DifferenceDataTable $table1
-    Write-Output $ans
+    # Write-Output $ans
     Assert-Equal $ans $False
 
     $ans = Compare-DataTable -ReferenceDataTable $table1 -DifferenceDataTable $table2
-    Write-Output $ans
+    # Write-Output $ans
     Assert-Equal $ans $True
 }
 catch {
