@@ -11,4 +11,4 @@ $RESULT = $ADAPTER.Fill($DATASET)
 $CONN.Close()
 
 Write-Output "Last Row:", $RESULT
-Write-Output "DataSet", $DATASET
+Write-Output "DataSet", $DATASET | Format-Table
