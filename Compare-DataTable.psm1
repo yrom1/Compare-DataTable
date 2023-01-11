@@ -5,19 +5,16 @@ function Compare-DataTable {
         [Parameter(Mandatory = $True, Position = 2)][System.Data.DataTable]$DifferenceDataTable
     )
     <#
-    I want to show the incorrect changes in the test DataTable as what has been added:
     $ cat file1
     line1
     line2
     line3
-
     $ cat file2
     line1
     line2
     line4
-
     $ diff file1 file2
-    2c2
+    3c3
     < line3
     ---
     > line4
@@ -40,21 +37,22 @@ function Compare-DataTable {
     $DiffFound = $False
     for ($i = 0; $i -lt $ReferenceDataTable.Rows.Count; $i++) {
         for ($j = 0; $j -lt $ReferenceDataTable.Columns.Count; $j++) {
+            $fmt = "INDEX {0},{1}" -f $i, $j
+            Write-Host $fmt
             # Do something with the cell value
             $ReferenceValue = $ReferenceDataTable.Rows[$i][$j]
             $DifferenceValue = $DifferenceDataTable.Rows[$i][$j]
-            Write-Host $ReferenceValue $DifferenceValue
             # TODO how do i generic compare the various non-int types?
-            if ($ReferenceValue -ne $DifferenceDataTable) {
-                Write-Host "Found difference in row values ({0},{1}) (i,j): <R {3}, >D {4}" -f $i, $j, $ReferenceValue, $DifferenceValue
+            Write-Host $ReferenceValue $DifferenceValue
+            if ($ReferenceValue -ne $DifferenceValue) {
+                Write-Host $ReferenceValue.gettype() $DifferenceValue.gettype()
+                # FIXME this prints twice?
+                $fmt = "Found difference in row values ({0},{1}) (i,j): <R {2}, >D {3}" -f $i, $j, $ReferenceValue, $DifferenceValue
+                Write-Host $fmt
                 $DiffFound = $True
             }
         }
     }
-    # $DiffFound = $True
-    # Write-Host "Difference found in column $column. Value in dataTable1: $($row1[$column]), value in dataTable2: $($row2[$column])"
-    # $DiffFound = $True
-    # Write-Host "No matching row found in dataTable2 for $($row1[0])"
     return $DiffFound
 }
 
