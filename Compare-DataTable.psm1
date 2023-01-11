@@ -47,7 +47,7 @@ function Compare-DataTable {
             if ($ReferenceValue -ne $DifferenceValue) {
                 Write-Host $ReferenceValue.gettype() $DifferenceValue.gettype()
                 # FIXME this prints twice?
-                $fmt = "Found difference in row values ({0},{1}) (i,j): <R {2}, >D {3}" -f $i, $j, $ReferenceValue, $DifferenceValue
+                $fmt = "Found difference @ (i={0},j={1}): <R {2}, >D {3}" -f $i, $j, $ReferenceValue, $DifferenceValue
                 Write-Host $fmt
                 $DiffFound = $True
             }
